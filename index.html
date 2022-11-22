@@ -1,0 +1,27 @@
+<html>
+
+<body>
+    <button id="connect-btn">Connect</button>
+    <button id="stop-btn">Stop</button>
+    <script>
+        const onMessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(data);
+        };
+        let eventSource;
+        const connectBtn = document.getElementById("connect-btn");
+        const stopBtn = document.getElementById("stop-btn");
+        connectBtn.addEventListener("click", () => {
+            eventSource = new EventSource("http://localhost:4000/event");
+            eventSource.onopen = () => {
+                console.log("opened");
+            };
+            eventSource.onmessage = onMessage;
+        });
+        stopBtn.addEventListener("click", () => {
+            eventSource.close();
+        });
+    </script>
+</body>
+
+</html>
